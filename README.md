@@ -1,5 +1,6 @@
 # terraform-dlm-snapshot
-Leverage AWS Data Lifecycle Manager to take EC2 snapshots
+Leverage AWS Data Lifecycle Manager to take EC2 snapshots. This code will look for a `target_tag` value on your EC2 instances to identify those 
+in need of snapshotting. By default this will be the key `Snapshot` with a string value of `true`.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
