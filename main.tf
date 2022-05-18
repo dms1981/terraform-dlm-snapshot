@@ -8,7 +8,7 @@ resource "aws_dlm_lifecycle_policy" "dlm_daily_snapshots" {
     resource_types = ["VOLUME"]
 
     schedule {
-      name = "Daily snapshot at 3:00AM"
+      name = format("%s-%s-schedule", var.service, var.environment)
 
       create_rule {
         interval      = 24
@@ -38,10 +38,7 @@ resource "aws_iam_role" "dlm_lifecycle_role" {
   tags               = var.tags
 }
 
-
-resource "aws_iam_role_policy" "dlm_lifecycle_policy" {
-  name   = lower(format("dlm-lifecycle-policy-%s-%s", var.service, var.environment))
-  role   = aws_iam_role.dlm_lifecycle_role.id
-  policy = data.aws_iam_policy_document.dlm_lifecycle_policy.json
+resource "aws_iam_role_policy_attachment" "dlm_lifecycle_policy_attachment" {
+  role       = aws_iam_role.dlm_lifecycle_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSDataLifecycleManagerServiceRole"
 }
-
